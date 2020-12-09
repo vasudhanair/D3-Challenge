@@ -164,3 +164,39 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
     return circlesGroup;
 }
+
+// Retrieve CSV data and execute everything below
+d3.csv("./assets/data/data.csv").then(function(censusData) {
+
+    console.log(censusData);
+
+    // Parse data
+    censusData.forEach(function(data) {
+        data.obesity = +data.obesity;
+        data.income = +data.income;
+        data.smokes = +data.smokes;
+        data.age = +data.age;
+        data.healthcare = +data.healthcare;
+        data.poverty = +data.poverty;
+    });
+
+    // create first linear scales
+    var xLinearScale = xScale(censusData, chosenXAxis);
+    var yLinearScale = yScale(censusData, chosenYAxis);
+
+    // create initial axis functions
+    var bottomAxis = d3.axisBottom(xLinearScale);
+    var leftAxis = d3.axisLeft(yLinearScale);
+
+    // append x axis
+    var xAxis = chartGroup.append("g")
+        .classed("x-axis", true)
+        .attr("transform", `translate(0, ${height})`)
+        .call(bottomAxis);
+
+    // append y axis
+    var yAxis = chartGroup.append("g")
+        .classed("y-axis", true)
+        .call(leftAxis);
+    
+    
