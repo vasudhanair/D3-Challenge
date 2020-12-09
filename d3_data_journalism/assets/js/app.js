@@ -43,3 +43,36 @@ function xScale(censusData, chosenXAxis) {
 
     return xLinearScale;
 }
+// Function used for updating y-scale var upon clicking on axis label
+function yScale(censusData, chosenYAxis) {
+    //create scales
+    var yLinearScale = d3.scaleLinear()
+        .domain([d3.min(censusData, d => d[chosenYAxis]) * 0.8,
+            d3.max(censusData, d => d[chosenYAxis]) * 1.2
+        ])
+        .range([height, 0]);
+
+    return yLinearScale;
+}
+
+// Function used for updating xAxis var upon click on axis label
+function renderAxesX(newXScale, xAxis) {
+    var bottomAxis = d3.axisBottom(newXScale);
+
+    xAxis.transition()
+        .duration(1000)
+        .call(bottomAxis);
+
+    return xAxis;
+}
+
+// Function used for updating yAxis var upon click on axis label
+function renderAxesY(newYScale, yAxis) {
+    var leftAxis = d3.axisLeft(newYScale);
+
+    yAxis.transition()
+        .duration(1000)
+        .call(leftAxis);
+
+    return yAxis;
+}
