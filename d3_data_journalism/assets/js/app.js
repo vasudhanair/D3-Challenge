@@ -222,4 +222,30 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
         .attr("font-size", "10px")
         .text(function(d) { return d.abbr });
     
-    
+    // create group for 3 x-axis labels
+    var xLabelsGroup = chartGroup.append("g")
+        .attr("transform", `translate(${width / 2}, ${height + 20 + margin.top})`);
+
+    var povertyLabel = xLabelsGroup.append("text")
+        .classed("aText", true)
+        .classed("active", true)
+        .attr("x", 0)
+        .attr("y", 20)
+        .attr("value", "poverty")
+        .text("In Poverty (%)");
+
+    var ageLabel = xLabelsGroup.append("text")
+        .classed("aText", true)
+        .classed("inactive", true)
+        .attr("x", 0)
+        .attr("y", 40)
+        .attr("value", "age")
+        .text("Age (Median)")
+
+    var incomeLabel = xLabelsGroup.append("text")
+        .classed("aText", true)
+        .classed("inactive", true)
+        .attr("x", 0)
+        .attr("y", 60)
+        .attr("value", "income")
+        .text("Household Income (Median)")
