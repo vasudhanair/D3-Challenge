@@ -283,3 +283,50 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
         .attr("transform", "rotate(-90)")
         .attr("value", "obesity")
         .text("Obese (%)");
+
+    // updateToolTip function with data
+    var circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+
+    // x axis labels event listener
+    xLabelsGroup.selectAll("text")
+        .on("click", function() {
+            // get value of selection
+            var value = d3.select(this).attr("value");
+
+            // check if value is same as current axis
+            if (value != chosenXAxis) {
+
+                // replace chosenXAxis with value
+                chosenXAxis = value;
+
+                //update x scale for new data
+                xLinearScale = xScale(censusData, chosenXAxis);
+
+                // update x axis with transition
+                xAxis = renderAxesX(xLinearScale, xAxis);
+
+                // update circles with new x values
+                circlesGroup = renderCircles(circlesGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
+
+                // update text with new x values
+                textGroup = renderText(textGroup, xLinearScale, chosenXAxis, yLinearScale, chosenYAxis);
+
+                // update tooltips with new info
+                circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+
+                // change classes to change bold text
+                if (chosenXAxis === "poverty") {
+                    povertyLabel.classed("active", true).classed("inactive", false);
+                    ageLabel.classed("active", false).classed("inactive", true);
+                    incomeLabel.classed("active", false).classed("inactive", true);
+                } else if (chosenXAxis === "age") {
+                    povertyLabel.classed("active", false).classed("inactive", true);
+                    ageLabel.classed("active", true).classed("inactive", false);
+                    incomeLabel.classed("active", false).classed("inactive", true);
+                } else {
+                    povertyLabel.classed("active", false).classed("inactive", true);
+                    ageLabel.classed("active", false).classed("inactive", true);
+                    incomeLabel.classed("active", true).classed("inactive", false);
+                }
+            }
+        });
