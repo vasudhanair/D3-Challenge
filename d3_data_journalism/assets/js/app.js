@@ -76,3 +76,43 @@ function renderAxesY(newYScale, yAxis) {
 
     return yAxis;
 }
+
+// Function used for updating circles group with a transition to new circles
+// For change in x axis or y axis
+function renderCircles(circlesGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
+
+    circlesGroup.transition()
+        .duration(1000)
+        .attr("cx", data => newXScale(data[chosenXAxis]))
+        .attr("cy", data => newYScale(data[chosenYAxis]));
+
+    return circlesGroup;
+}
+
+// Function used for updating state labels with a transition to new 
+function renderText(textGroup, newXScale, chosenXAxis, newYScale, chosenYAxis) {
+
+    textGroup.transition()
+        .duration(1000)
+        .attr("x", d => newXScale(d[chosenXAxis]))
+        .attr("y", d => newYScale(d[chosenYAxis]));
+
+    return textGroup;
+}
+// Function to stylize x-axis values for tooltips
+function styleX(value, chosenXAxis) {
+
+    // Stylize based on variable chosen
+    // Poverty percentage
+    if (chosenXAxis === 'poverty') {
+        return `${value}%`;
+    }
+    // Household income in dollars
+    else if (chosenXAxis === 'income') {
+        return `$${value}`;
+    }
+    // Age (number)
+    else {
+        return `${value}`;
+    }
+}
