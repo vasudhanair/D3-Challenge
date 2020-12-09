@@ -199,4 +199,27 @@ d3.csv("./assets/data/data.csv").then(function(censusData) {
         .classed("y-axis", true)
         .call(leftAxis);
     
+    // append initial circles
+    var circlesGroup = chartGroup.selectAll("circle")
+        .data(censusData)
+        .enter()
+        .append("circle")
+        .classed("stateCircle", true)
+        .attr("cx", d => xLinearScale(d[chosenXAxis]))
+        .attr("cy", d => yLinearScale(d[chosenYAxis]))
+        .attr("r", 12)
+        .attr("opacity", ".5");
+
+    // append initial text
+    var textGroup = chartGroup.selectAll(".stateText")
+        .data(censusData)
+        .enter()
+        .append("text")
+        .classed("stateText", true)
+        .attr("x", d => xLinearScale(d[chosenXAxis]))
+        .attr("y", d => yLinearScale(d[chosenYAxis]))
+        .attr("dy", 3)
+        .attr("font-size", "10px")
+        .text(function(d) { return d.abbr });
+    
     
